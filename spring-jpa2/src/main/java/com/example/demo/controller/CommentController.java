@@ -13,22 +13,23 @@ import com.example.demo.responsitory.CommentRepository;
 
 @Controller
 public class CommentController {
+	
 	private final CommentRepository repository;
 	
 	public CommentController(CommentRepository repository) {
 		this.repository = repository;
 	}
 	
-	@GetMapping
+	@GetMapping("/")
 	public String getALLComments(@ModelAttribute Comment comment,Model model) {
-		model.addAllAttributes(repository.findAll());//AddAttribute("comments",repository.findAll())が使えない
+		model.addAttribute("comments",repository.findAll());//AddAttribute("comments",repository.findAll())が使えない
 		return "list";
 	}
 	
-	@PostMapping
+	@PostMapping("/add")
 	public String addComment(@Validated @ModelAttribute Comment comment,BindingResult result,Model model){
 		
-		model.addAttribute(repository.findAll());
+		model.addAttribute("comments",repository.findAll());
 		
 		if(result.hasErrors()) {
 			return "list";
